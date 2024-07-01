@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/jeongjihyo/Documents/GitHub/M-keeper/mkeeper/windows/runner",
+      "program": "/Users/jeongjihyo/Documents/GitHub/M-keeper/mkeeper/windows/runner/build/Debug/outDebug"
+    }
+  ]
+}

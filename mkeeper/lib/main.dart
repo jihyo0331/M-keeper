@@ -1,125 +1,105 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'dart:io' show Platform; // 추가: 플랫폼 분기를 위해 사용
+import 'dart:async';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MaterialApp(
+    home: Scaffold(
+      body: SafeArea(child: MyTts()),
+    ),
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'M-Keeper User App',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class MyTts extends StatefulWidget {
+  const MyTts({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyTts> createState() => _MyTtsState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MyTtsState extends State<MyTts> {
+  final FlutterTts flutterTts = FlutterTts();
+  /* 언어 설정
+    한국어    =   "ko-KR"
+    일본어    =   "ja-JP"
+    영어      =   "en-US"
+    중국어    =   "zh-CN"
+    프랑스어  =   "fr-FR"
+  */
+  String language = "ko-KR";
+  /* 음성 설정
+    한국어 여성 {"name": "ko-kr-x-ism-local", "locale": "ko-KR"}
+    영어 여성 {"name": "en-us-x-tpf-local", "locale": "en-US"}
+    일본어 여성 {"name": "ja-JP-language", "locale": "ja-JP"}
+    중국어 여성 {"name": "cmn-cn-x-ccc-local", "locale": "zh-CN"}
+    중국어 남성 {"name": "cmn-cn-x-ccd-local", "locale": "zh-CN"}
+*/
+  Map<String, String> voice = {"name": "ko-kr-x-ism-local", "locale": "ko-KR"};
+  double volume = 0.8;
+  double pitch = 1.0;
+  double rate = 0.5;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void initState() {
+    super.initState();
+
+    // TTS 초기 설정
+    initTts();
   }
 
+  // TTS 초기 설정
+  Future<void> initTts() async {
+    await initTtsIosOnly(); // iOS 설정
+    await flutterTts.setLanguage(language);
+    await flutterTts.setVoice(voice);
+    // Android일 때만 엔진 설정
+    if (Platform.isAndroid) {
+      // String engine = "com.google.android.tts"; 필요 시 사용
+      // await flutterTts.setEngine(engine);
+    }
+    await flutterTts.setVolume(volume);
+    await flutterTts.setPitch(pitch);
+    await flutterTts.setSpeechRate(rate);
+  }
+
+  // TTS iOS 옵션
+  Future<void> initTtsIosOnly() async {
+    // iOS 전용 옵션 : 공유 오디오 인스턴스 설정
+    if (Platform.isIOS) {
+      await flutterTts.setSharedInstance(true);
+
+      // 배경 음악와 인앱 오디오 세션을 동시에 사용
+      await flutterTts.setIosAudioCategory(
+          IosTextToSpeechAudioCategory.ambient,
+          [
+            IosTextToSpeechAudioCategoryOptions.allowBluetooth,
+            IosTextToSpeechAudioCategoryOptions.allowBluetoothA2DP,
+            IosTextToSpeechAudioCategoryOptions.mixWithOthers
+          ],
+          IosTextToSpeechAudioMode.voicePrompt);
+    }
+  }
+
+  // TTS로 읽어주기
+  Future<void> _speak(String voiceText) async {
+    await flutterTts.speak(voiceText);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+    return GestureDetector(
+      onTap: () {
+        _speak("지도에서 길찾기를 하시려면 위로 스와이프 하세요");
+      },
+      child: Center(
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+          children: const [
+            Text('설명을 다시 들으시려면 화면을 터치하세요'),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
