@@ -3,6 +3,14 @@
         android:label="mkeeper"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA5T24NuVB3vJHxpNJtk4hhBFsHILFEgxY"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
