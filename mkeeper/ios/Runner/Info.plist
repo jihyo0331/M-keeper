@@ -6,14 +6,6 @@
 	<string>We need your microphone access for speech recognition</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your location to show you directions.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>We need your microphone access for speech recognition</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to show you directions.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to show your current position on the map.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need your location to show your current position on the map.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We need your location to show your current position on the map.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
