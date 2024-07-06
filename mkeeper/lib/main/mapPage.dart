@@ -28,7 +28,8 @@ class _MappageState extends State<Mappage> {
   final FlutterSoundRecorder _recorder = FlutterSoundRecorder();
   late String _filePath;
 
-  final String _apiKey = 'YOUR_GOOGLE_MAPS_API_KEY'; // 직접 API Key를 삽입합니다.
+  final String _apiKey =
+      'AIzaSyA5T24NuVB3vJHxpNJtk4hhBFsHILFEgxY'; // 직접 API Key를 삽입합니다.
 
   @override
   void initState() {
