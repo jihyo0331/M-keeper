@@ -10,6 +10,7 @@
         <uses-permission android:name="android.permission.RECORD_AUDIO"/>
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA5T24NuVB3vJHxpNJtk4hhBFsHILFEgxY"/>
+            
 
         <activity
             android:name=".MainActivity"
