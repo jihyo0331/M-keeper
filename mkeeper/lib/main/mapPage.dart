@@ -8,7 +8,7 @@ import 'package:flutter/services.dart' show rootBundle; // Assets 파일 로드 
 import 'package:flutter_sound/flutter_sound.dart'; // Flutter Sound 패키지
 import 'package:permission_handler/permission_handler.dart'; // 권한 요청 패키지
 import 'dart:io'; // 파일 입출력 패키지
-import 'package:path_provider/path_provider.dart'; // 경로 제공 패키지
+import 'package:path_provider/path_provider.dart';
 
 class Mappage extends StatefulWidget {
   const Mappage({super.key});
