@@ -3,11 +3,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:google_speech/google_speech.dart'; // Google Speech-to-Text API 패키지
-import 'package:flutter/services.dart' show rootBundle; // Assets 파일 로드 패키지
-import 'package:flutter_sound/flutter_sound.dart'; // Flutter Sound 패키지
-import 'package:permission_handler/permission_handler.dart'; // 권한 요청 패키지
-import 'dart:io'; // 파일 입출력 패키지
+import 'package:google_speech/google_speech.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class Mappage extends StatefulWidget {
@@ -20,7 +20,7 @@ class Mappage extends StatefulWidget {
 class _MappageState extends State<Mappage> {
   late GoogleMapController mapController;
   LatLng _currentPosition = LatLng(0, 0);
-  LatLng? _destinationPosition; // 기본 목적지 설정 없음
+  LatLng? _destinationPosition;
   bool _isMapReady = false;
   bool _isListening = false;
   String _destinationAddress = "Say a destination...";
@@ -28,8 +28,7 @@ class _MappageState extends State<Mappage> {
   final FlutterSoundRecorder _recorder = FlutterSoundRecorder();
   late String _filePath;
 
-  final String _apiKey =
-      'AIzaSyA5T24NuVB3vJHxpNJtk4hhBFsHILFEgxY'; // 직접 API Key를 삽입합니다.
+  final String _apiKey = 'AIzaSyA5T24NuVB3vJHxpNJtk4hhBFsHILFEgxY';
 
   @override
   void initState() {
@@ -70,13 +69,11 @@ class _MappageState extends State<Mappage> {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // 위치 서비스 사용 가능한지 확인
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       return Future.error('Location services are disabled.');
     }
 
-    // 위치 권한 확인
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -90,11 +87,10 @@ class _MappageState extends State<Mappage> {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    // 현재 위치 가져오기
     Position position = await Geolocator.getCurrentPosition();
     setState(() {
       _currentPosition = LatLng(position.latitude, position.longitude);
-      _isMapReady = true; // 지도가 준비됨을 표시
+      _isMapReady = true;
     });
   }
 
@@ -267,7 +263,7 @@ class _MappageState extends State<Mappage> {
                 : _destinationPosition!.longitude,
           ),
         ),
-        100.0, // 여백
+        100.0,
       ),
     );
   }
@@ -279,10 +275,6 @@ class _MappageState extends State<Mappage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('mkeeper'),
-        backgroundColor: Colors.blue,
-      ),
       body: Stack(
         children: [
           _isMapReady
@@ -290,7 +282,7 @@ class _MappageState extends State<Mappage> {
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
                     target: _currentPosition,
-                    zoom: 14.0, // 적절한 줌 레벨 설정
+                    zoom: 14.0,
                   ),
                   myLocationEnabled: true,
                   polylines: {
@@ -302,7 +294,7 @@ class _MappageState extends State<Mappage> {
                     ),
                   },
                 )
-              : Center(child: CircularProgressIndicator()), // 위치를 가져오는 동안 로딩 표시
+              : Center(child: CircularProgressIndicator()),
           Positioned(
             bottom: 50,
             left: 50,
@@ -310,6 +302,20 @@ class _MappageState extends State<Mappage> {
               onPressed: _isListening ? _stopListening : _startListening,
               child: Icon(_isListening ? Icons.mic_off : Icons.mic),
               backgroundColor: Colors.blue,
+            ),
+          ),
+          Positioned(
+            bottom: 110,
+            left: 50,
+            right: 50,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              color: Colors.white,
+              child: Text(
+                _destinationAddress,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
             ),
           ),
         ],
