@@ -19,7 +19,7 @@ class Mappage extends StatefulWidget {
 
 class _MappageState extends State<Mappage> {
   late GoogleMapController mapController;
-  LatLng _currentPosition = LatLng(0, 0);
+  LatLng _currentPosition = const LatLng(0, 0);
   LatLng? _destinationPosition;
   bool _isMapReady = false;
   bool _isListening = false;
@@ -287,14 +287,14 @@ class _MappageState extends State<Mappage> {
                   myLocationEnabled: true,
                   polylines: {
                     Polyline(
-                      polylineId: PolylineId('route'),
+                      polylineId: const PolylineId('route'),
                       color: Colors.blue,
                       width: 5,
                       points: _polylinePoints,
                     ),
                   },
                 )
-              : Center(child: CircularProgressIndicator()),
+              : const Center(child: CircularProgressIndicator()),
           Positioned(
             bottom: 50,
             left: 50,
@@ -309,12 +309,12 @@ class _MappageState extends State<Mappage> {
             left: 50,
             right: 50,
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               color: Colors.white,
               child: Text(
                 _destinationAddress,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
             ),
           ),

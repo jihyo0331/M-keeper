@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:io' show Platform;
-import 'main/mapPage.dart'; // mapPage.dart 경로 추가
-import 'main/voicePage.dart';
+import 'main/map_page.dart'; // mapPage.dart 경로 추가
+import 'main/voice_page.dart';
+import "main.dart";
 
 class MyTts extends StatefulWidget {
   const MyTts({super.key});
@@ -62,13 +63,13 @@ class _MyTtsState extends State<MyTts> {
       // 위로 드래그한 경우
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Mappage()),
+        MaterialPageRoute(builder: (context) => const Mappage()),
       );
     } else if (details.primaryVelocity! > 0) {
       // 아래로 드래그한 경우
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Voicepage()),
+        MaterialPageRoute(builder: (context) => const Voicepage()),
       );
     }
   }
