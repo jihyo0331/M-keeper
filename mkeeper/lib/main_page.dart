@@ -1,7 +1,8 @@
+//main_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:io' show Platform;
-import 'main/map_page.dart'; // mapPage.dart 경로 추가
+import 'main/map_page.dart';
 import 'main/voice_page.dart';
 import "main.dart";
 
