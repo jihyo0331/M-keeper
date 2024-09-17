@@ -85,7 +85,7 @@ class _MappageState extends State<Mappage> {
 
     if (permission == LocationPermission.deniedForever) {
       return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+          'Location permissions are permanently denied, we cannot request permissions.'); //에러메시지
     }
 
     Position position = await Geolocator.getCurrentPosition();
@@ -100,7 +100,7 @@ class _MappageState extends State<Mappage> {
       try {
         bool permissionGranted = await _requestMicrophonePermission();
         if (!permissionGranted) {
-          throw 'Microphone permission not granted';
+          throw 'Microphone permission not granted'; //Microphone conactide
         }
         setState(() {
           _isListening = true;
@@ -114,7 +114,7 @@ class _MappageState extends State<Mappage> {
         setState(() {
           _isListening = false;
         });
-        print('Error starting recorder: $e');
+        print('Error starting recorder: $e'); // seting error!
       }
     }
   }
